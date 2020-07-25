@@ -46,7 +46,7 @@ set /p remote_rep=远程仓库(默认origin):
 if "%remote_rep%"=="" set remote_rep=origin
 echo %remote_rep%
 set /p ssh=远程仓库ssh:
-echo ssh
+echo %ssh%
 git remote add %remote_rep% %ssh%
 
 goto loop
