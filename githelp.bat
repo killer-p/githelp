@@ -70,14 +70,15 @@ if "%option_v%"=="3" goto show_remote_rep
 if "%option_v%"=="4" goto add_remote_rep
 if "%option_v%"=="5" goto delete_remote_rep
 
-rem 推送到远程仓库 必须先关联远程仓库 支持默认
+rem 推送到远程仓库 必须先关联远程仓库 
 :push
 echo push
-set /p remote_rep=远程仓库(默认origin):
-if "%remote_rep%"=="" set remote_rep=origin
-echo 远程仓库:%remote_rep%
+echo 远程仓库名称 ssh地址
+git remote -v
+set /p remote_rep=远程仓库:
+echo 推送到远程仓库:%remote_rep%
 
-set /p branch=本地分支(默认master):
+set /p branch=本地分支(master):
 if "%branch%"=="" set branch=master
 echo 本地分支:%branch%
 
@@ -96,20 +97,22 @@ goto loop
 rem 添加远程仓库 需要shh地址
 :add_remote_rep
 echo add_remote
-set /p remote_rep=远程仓库(默认origin):
-if "%remote_rep%"=="" set remote_rep=origin
-echo %remote_rep%
+set /p remote_rep=远程仓库(origin):
+
+echo 远程仓库名称：%remote_rep%
 set /p ssh=远程仓库ssh:
-echo %ssh%
+echo ssh：%ssh%
 git remote add %remote_rep% %ssh%
 
 goto loop
 
 rem 取关远程仓库
 :delete_remote_rep
-set /p remote_rep=远程仓库(默认origin):
-if "%remote_rep%"=="" set remote_rep=origin
-echo %remote_rep%
+echo delete_remote_rep
+echo 远程仓库名称 ssh地址
+git remote -v
+set /p remote_rep=远程仓库:
+echo 取关的仓库：%remote_rep%
 git remote remove %remote_rep%
 
 goto loop
