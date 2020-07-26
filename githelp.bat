@@ -10,7 +10,7 @@ set rep_path=%CD%
 
 :loop
 echo ------------------------------------------菜单--------------------------------------------
-set /p option=0,编辑readme 1,提交 2,推送至远程仓库 3,git初始化 4，版本控制   :
+set /p option=0,编辑readme 1,提交 2,推送至远程仓库 3,git初始化 4，仓库与版本控制   :
 
 if "%option%"=="0" goto readme
 if "%option%"=="1" goto add&commit
@@ -49,26 +49,26 @@ rem 初始化模块
 :initmodule
 echo initmodule
 echo --------------------------------------初始化菜单----------------------------------------
-set /p option_i= 0,返回 1，初始化仓库 2,关联远程仓库 3,用户初始化  :
+set /p option_i= 0,返回 1，初始化仓库 2,用户初始化  :
 
 if "%option_i%"=="0" goto loop
 if "%option_i%"=="1" goto init
-if "%option_i%"=="2" goto add_remote
-if "%option_i%"=="3" goto user_init
+if "%option_i%"=="2" goto user_init
 
 
 
 rem 版本控制模块
 :versionmodule
 echo versionmodule
-echo --------------------------------------版本控制菜单----------------------------------------
-set /p option_v= 0,返回 1，版本信息 2,版本恢复   :
+echo --------------------------------------仓库与版本控制菜单----------------------------------------
+set /p option_v= 0,返回 1，版本信息 2,版本恢复 3，查看远程仓库 4，关联远程仓库 5，取关远程仓库:
 
 if "%option_v%"=="0" goto loop
 if "%option_v%"=="1" goto rev-parse
 if "%option_v%"=="2" goto recover
-
-
+if "%option_v%"=="3" goto show_remote_rep
+if "%option_v%"=="4" goto add_remote_rep
+if "%option_v%"=="5" goto delete_remote_rep
 
 rem 推送到远程仓库 必须先关联远程仓库 支持默认
 :push
@@ -84,8 +84,17 @@ echo 本地分支:%branch%
 git push -u %remote_rep% %branch%
 goto loop
 
+rem 显示远程仓库
+:show_remote_rep
+echo show_remote_rep
+echo 远程仓库名称 ssh地址
+git remote -v
+
+goto loop
+
+
 rem 添加远程仓库 需要shh地址
-:add_remote
+:add_remote_rep
 echo add_remote
 set /p remote_rep=远程仓库(默认origin):
 if "%remote_rep%"=="" set remote_rep=origin
@@ -95,6 +104,16 @@ echo %ssh%
 git remote add %remote_rep% %ssh%
 
 goto loop
+
+rem 取关远程仓库
+:delete_remote_rep
+set /p remote_rep=远程仓库(默认origin):
+if "%remote_rep%"=="" set remote_rep=origin
+echo %remote_rep%
+git remote remove %remote_rep%
+
+goto loop
+
 
 rem 查看仓库版本信息
 :rev-parse
