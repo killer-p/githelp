@@ -77,6 +77,7 @@ git branch
 echo 当前版本号：
 git rev-parse HEAD
 echo ----历史版本----
+echo 注意，若无显示提交记录和菜单，输入wq
 git log
 echo ----提交记录----
 git reflog
