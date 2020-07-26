@@ -1,9 +1,12 @@
 @echo off
 rem 后续命令使用的是：UTF-8编码 支持中文输出
 chcp 65001
+
+set editor_path=D:\notepad++
+set rep_path=%CD%
 :loop
-set /p option=0,develop mode; 1,提交 2,提交并推送 3,git初始化 4,添加远程仓库 5,查看版本 6，版本恢复   :
-if "%option%"=="0" goto develop
+set /p option=0,编辑readme 1,提交 2,提交并推送 3,git初始化 4,添加远程仓库 5,查看版本 6，版本恢复   :
+if "%option%"=="0" goto readme
 if "%option%"=="1" goto add&commit
 if "%option%"=="2" goto push
 if "%option%"=="3" goto init
@@ -11,9 +14,12 @@ if "%option%"=="4" goto add_remote
 if "%option%"=="5" goto rev-parse
 if "%option%"=="6" goto recover
 
-:develop
-start cmd
-exit
+:readme
+cd %editor_path%
+start notepad++.exe %rep_path%\readme.md 
+cd %rep_path%
+goto loop
+
 
 :init
 set /p message=输入英文备注：
